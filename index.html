@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Remate de Tienda - Catalogo de remate</title>
+<style>
+  :root {
+    --naranja: #e8590c;
+    --fondo: #faf9f7;
+    --texto: #2b2b2b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: var(--fondo);
+    color: var(--texto);
+  }
+  header {
+    background: var(--naranja);
+    color: white;
+    padding: 24px 16px;
+    text-align: center;
+  }
+  header h1 { margin: 0 0 4px 0; font-size: 1.6rem; }
+  header p { margin: 0; opacity: 0.9; font-size: 0.95rem; }
+
+  .controles {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 16px;
+    background: white;
+    position: sticky;
+    top: 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    z-index: 10;
+  }
+  .controles input, .controles select {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.95rem;
+  }
+  .controles input { flex: 1; min-width: 180px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .tarjeta {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    transition: transform 0.15s ease;
+  }
+  .tarjeta:hover { transform: translateY(-3px); }
+  .img-wrap {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background: white;
+  }
+  .img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 8px;
+  }
+  .badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--naranja);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 20px;
+  }
+  .info { padding: 12px; }
+  .info h3 { margin: 0 0 4px 0; font-size: 1rem; }
+  .categoria { margin: 0 0 8px 0; font-size: 0.8rem; color: #777; }
+  .precios { display: flex; align-items: baseline; gap: 8px; margin-bottom: 10px; }
+  .precio-original { text-decoration: line-through; color: #999; font-size: 0.85rem; }
+  .precio-remate { font-size: 1.15rem; font-weight: 700; color: var(--naranja); }
+  .btn-wsp {
+    display: block;
+    text-align: center;
+    background: #25D366;
+    color: white;
+    text-decoration: none;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .btn-agotado {
+    display: block;
+    text-align: center;
+    background: #eee;
+    color: #999;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .tarjeta.agotada { opacity: 0.6; }
+  .badge-agotado {
+    top: auto;
+    bottom: 8px;
+    background: #555;
+  }
+  .vacio { text-align: center; padding: 60px 16px; color: #999; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Remate de Tienda</h1>
+  <p>Catalogo de remate &middot; 80 producto(s) disponibles</p>
+</header>
+
+<div class="controles">
+  <input id="buscador" type="text" placeholder="Buscar producto...">
+  <select id="filtroCategoria">
+    <option value="">Todas las categorias</option>
+    <option value="Bazar">Bazar</option><option value="Hogar">Hogar</option><option value="Otros">Otros</option><option value="colonia hombre">colonia hombre</option><option value="colonia mujer">colonia mujer</option>
+  </select>
+</div>
+
+<div class="grid" id="grid">
+  
+        <div class="tarjeta agotada" data-categoria="Hogar" data-nombre="huevera ceramica - vaquita">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/00565967.jpg" alt="Huevera ceramica - vaquita" loading="lazy">
+            <span class="badge badge-agotado">AGOTADO</span>
+          </div>
+          <div class="info">
+            <h3>Huevera ceramica - vaquita</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 50</span>
+              <span class="precio-remate">S/ 20</span>
+            </div>
+            <span class="btn-agotado">Agotado</span>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="set de tasas x8 - belia">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/08d54b49.jpg" alt="Set de tasas x8 - BELIA" loading="lazy">
+            <span class="badge">-46%</span>
+          </div>
+          <div class="info">
+            <h3>Set de tasas x8 - BELIA</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 65</span>
+              <span class="precio-remate">S/ 35</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Set%20de%20tasas%20x8%20-%20BELIA%20(S/%2035)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="condimentero">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/0d498653.jpg" alt="Condimentero" loading="lazy">
+            <span class="badge">-52%</span>
+          </div>
+          <div class="info">
+            <h3>Condimentero</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 25</span>
+              <span class="precio-remate">S/ 12</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Condimentero%20(S/%2012)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="condimentero ceramica">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/11459544.jpg" alt="Condimentero ceramica" loading="lazy">
+            <span class="badge">-49%</span>
+          </div>
+          <div class="info">
+            <h3>Condimentero ceramica</h3>
+            <p class="categoria">Hogar &middot; Nuevo - con detalle</p>
+            <div class="precios">
+              <span class="precio-original">S/ 35</span>
+              <span class="precio-remate">S/ 18</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Condimentero%20ceramica%20(S/%2018)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Otros" data-nombre="kaiak - desodorante">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/1353ff45.jpg" alt="KAIAK - Desodorante" loading="lazy">
+            <span class="badge">-73%</span>
+          </div>
+          <div class="info">
+            <h3>KAIAK - Desodorante</h3>
+            <p class="categoria">Otros &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 45</span>
+              <span class="precio-remate">S/ 12</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20KAIAK%20-%20Desodorante%20(S/%2012)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="colonia hombre" data-nombre="mister - giordani oriflame">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/15df382b.jpg" alt="Mister - Giordani Oriflame" loading="lazy">
+            <span class="badge">-62%</span>
+          </div>
+          <div class="info">
+            <h3>Mister - Giordani Oriflame</h3>
+            <p class="categoria">colonia hombre &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 120</span>
+              <span class="precio-remate">S/ 45</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Mister%20-%20Giordani%20Oriflame%20(S/%2045)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="shampoo homen - natura">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/162a5716.jpg" alt="Shampoo Homen - Natura" loading="lazy">
+            <span class="badge">-62%</span>
+          </div>
+          <div class="info">
+            <h3>Shampoo Homen - Natura</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 40</span>
+              <span class="precio-remate">S/ 15</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Shampoo%20Homen%20-%20Natura%20(S/%2015)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="juego de cubiertos x24">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/1d8db350.jpg" alt="Juego de cubiertos x24" loading="lazy">
+            <span class="badge">-47%</span>
+          </div>
+          <div class="info">
+            <h3>Juego de cubiertos x24</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 75</span>
+              <span class="precio-remate">S/ 40</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Juego%20de%20cubiertos%20x24%20(S/%2040)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Otros" data-nombre="just - cremas 60g">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/262784b0.jpg" alt="Just - Cremas 60g" loading="lazy">
+            <span class="badge">-62%</span>
+          </div>
+          <div class="info">
+            <h3>Just - Cremas 60g</h3>
+            <p class="categoria">Otros &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 120</span>
+              <span class="precio-remate">S/ 45</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Just%20-%20Cremas%2060g%20(S/%2045)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Otros" data-nombre="just - deointimo">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/2b549bd1.jpg" alt="Just - Deointimo" loading="lazy">
+            <span class="badge">-54%</span>
+          </div>
+          <div class="info">
+            <h3>Just - Deointimo</h3>
+            <p class="categoria">Otros &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 130</span>
+              <span class="precio-remate">S/ 60</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Just%20-%20Deointimo%20(S/%2060)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta agotada" data-categoria="colonia hombre" data-nombre="kaiak - natura">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/2da6af5a.jpg" alt="KAIAK - Natura" loading="lazy">
+            <span class="badge badge-agotado">AGOTADO</span>
+          </div>
+          <div class="info">
+            <h3>KAIAK - Natura</h3>
+            <p class="categoria">colonia hombre &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 75</span>
+              <span class="precio-remate">S/ 35</span>
+            </div>
+            <span class="btn-agotado">Agotado</span>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="set de vasos de vidrio x6">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/302352f3.jpg" alt="set de vasos de vidrio x6" loading="lazy">
+            <span class="badge">-43%</span>
+          </div>
+          <div class="info">
+            <h3>set de vasos de vidrio x6</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 35</span>
+              <span class="precio-remate">S/ 20</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20set%20de%20vasos%20de%20vidrio%20x6%20(S/%2020)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Bazar" data-nombre="salero - dupree">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/32e8d613.jpg" alt="Salero - Dupree" loading="lazy">
+            <span class="badge">-40%</span>
+          </div>
+          <div class="info">
+            <h3>Salero - Dupree</h3>
+            <p class="categoria">Bazar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 25</span>
+              <span class="precio-remate">S/ 15</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Salero%20-%20Dupree%20(S/%2015)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="colonia mujer" data-nombre="encanto - avon">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/337ba422.jpg" alt="Encanto - Avon" loading="lazy">
+            <span class="badge">-48%</span>
+          </div>
+          <div class="info">
+            <h3>Encanto - Avon</h3>
+            <p class="categoria">colonia mujer &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 25</span>
+              <span class="precio-remate">S/ 13</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Encanto%20-%20Avon%20(S/%2013)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta agotada" data-categoria="Hogar" data-nombre="just - tomillo 96g">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/3b06bf0d.jpg" alt="Just - Tomillo 96g" loading="lazy">
+            <span class="badge badge-agotado">AGOTADO</span>
+          </div>
+          <div class="info">
+            <h3>Just - Tomillo 96g</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 140</span>
+              <span class="precio-remate">S/ 60</span>
+            </div>
+            <span class="btn-agotado">Agotado</span>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="colonia hombre" data-nombre="wild country">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/3b164117.jpg" alt="Wild country" loading="lazy">
+            <span class="badge">-44%</span>
+          </div>
+          <div class="info">
+            <h3>Wild country</h3>
+            <p class="categoria">colonia hombre &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 45</span>
+              <span class="precio-remate">S/ 25</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Wild%20country%20(S/%2025)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="quesera cerámica - vaquita">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/3b2ecb67.jpg" alt="Quesera cerámica - Vaquita" loading="lazy">
+            <span class="badge">-55%</span>
+          </div>
+          <div class="info">
+            <h3>Quesera cerámica - Vaquita</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 55</span>
+              <span class="precio-remate">S/ 25</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Quesera%20cerámica%20-%20Vaquita%20(S/%2025)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="azucarera hermica">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/3b74dcd1.jpg" alt="Azucarera hermica" loading="lazy">
+            <span class="badge">-50%</span>
+          </div>
+          <div class="info">
+            <h3>Azucarera hermica</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 50</span>
+              <span class="precio-remate">S/ 25</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Azucarera%20hermica%20(S/%2025)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Otros" data-nombre="natura plant - repuestos">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/423d100d.jpg" alt="Natura Plant - Repuestos" loading="lazy">
+            <span class="badge">-60%</span>
+          </div>
+          <div class="info">
+            <h3>Natura Plant - Repuestos</h3>
+            <p class="categoria">Otros &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 25</span>
+              <span class="precio-remate">S/ 10</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Natura%20Plant%20-%20Repuestos%20(S/%2010)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="colonia mujer" data-nombre="puro amor - unique">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/4382122f.jpg" alt="Puro Amor - Unique" loading="lazy">
+            <span class="badge">-61%</span>
+          </div>
+          <div class="info">
+            <h3>Puro Amor - Unique</h3>
+            <p class="categoria">colonia mujer &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 140</span>
+              <span class="precio-remate">S/ 55</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Puro%20Amor%20-%20Unique%20(S/%2055)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="colonia hombre" data-nombre="black suede - avon">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/46c36bd2.jpg" alt="BLACK SUEDE - AVON" loading="lazy">
+            <span class="badge">-44%</span>
+          </div>
+          <div class="info">
+            <h3>BLACK SUEDE - AVON</h3>
+            <p class="categoria">colonia hombre &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 45</span>
+              <span class="precio-remate">S/ 25</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20BLACK%20SUEDE%20-%20AVON%20(S/%2025)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="kitchen tools">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/5451a415.jpg" alt="Kitchen Tools" loading="lazy">
+            <span class="badge">-46%</span>
+          </div>
+          <div class="info">
+            <h3>Kitchen Tools</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 65</span>
+              <span class="precio-remate">S/ 35</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Kitchen%20Tools%20(S/%2035)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="colonia mujer" data-nombre="hypnotic - perfume">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/55563e02.jpg" alt="Hypnotic - perfume" loading="lazy">
+            <span class="badge">-54%</span>
+          </div>
+          <div class="info">
+            <h3>Hypnotic - perfume</h3>
+            <p class="categoria">colonia mujer &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 65</span>
+              <span class="precio-remate">S/ 30</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Hypnotic%20-%20perfume%20(S/%2030)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="set de copas x3">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/56d52e05.jpg" alt="Set de copas x3" loading="lazy">
+            <span class="badge">-50%</span>
+          </div>
+          <div class="info">
+            <h3>Set de copas x3</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 50</span>
+              <span class="precio-remate">S/ 25</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Set%20de%20copas%20x3%20(S/%2025)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="colonia mujer" data-nombre="ifresh y natural - oriflame">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/5942f8bf.jpg" alt="iFresh y natural - Oriflame" loading="lazy">
+            <span class="badge">-49%</span>
+          </div>
+          <div class="info">
+            <h3>iFresh y natural - Oriflame</h3>
+            <p class="categoria">colonia mujer &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 35</span>
+              <span class="precio-remate">S/ 18</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20iFresh%20y%20natural%20-%20Oriflame%20(S/%2018)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="frasco para café">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/5c4a4250.jpg" alt="Frasco para café" loading="lazy">
+            <span class="badge">-60%</span>
+          </div>
+          <div class="info">
+            <h3>Frasco para café</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 45</span>
+              <span class="precio-remate">S/ 18</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Frasco%20para%20café%20(S/%2018)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="jarra pequeña">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/5c8d67a0.jpg" alt="Jarra pequeña" loading="lazy">
+            <span class="badge">-50%</span>
+          </div>
+          <div class="info">
+            <h3>Jarra pequeña</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 30</span>
+              <span class="precio-remate">S/ 15</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Jarra%20pequeña%20(S/%2015)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="colonia mujer" data-nombre="avon - naturals cuerpo">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/5cfa7656.jpg" alt="AVON - Naturals Cuerpo" loading="lazy">
+            <span class="badge">-25%</span>
+          </div>
+          <div class="info">
+            <h3>AVON - Naturals Cuerpo</h3>
+            <p class="categoria">colonia mujer &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 20</span>
+              <span class="precio-remate">S/ 15</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20AVON%20-%20Naturals%20Cuerpo%20(S/%2015)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="set de parrilla">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/62657c23.jpg" alt="Set de parrilla" loading="lazy">
+            <span class="badge">-50%</span>
+          </div>
+          <div class="info">
+            <h3>Set de parrilla</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 90</span>
+              <span class="precio-remate">S/ 45</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Set%20de%20parrilla%20(S/%2045)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Otros" data-nombre="just - enebro 96 g">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/6370b164.jpg" alt="Just - Enebro 96 g" loading="lazy">
+            <span class="badge">-62%</span>
+          </div>
+          <div class="info">
+            <h3>Just - Enebro 96 g</h3>
+            <p class="categoria">Otros &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 160</span>
+              <span class="precio-remate">S/ 60</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Just%20-%20Enebro%2096%20g%20(S/%2060)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="porta cuchillos">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/6655b936.jpg" alt="Porta cuchillos" loading="lazy">
+            <span class="badge">-54%</span>
+          </div>
+          <div class="info">
+            <h3>Porta cuchillos</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 65</span>
+              <span class="precio-remate">S/ 30</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Porta%20cuchillos%20(S/%2030)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="bombonera azucarera de vidrio">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/68c91efe.jpg" alt="Bombonera Azucarera de Vidrio" loading="lazy">
+            <span class="badge">-70%</span>
+          </div>
+          <div class="info">
+            <h3>Bombonera Azucarera de Vidrio</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 50</span>
+              <span class="precio-remate">S/ 15</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Bombonera%20Azucarera%20de%20Vidrio%20(S/%2015)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="hielera de vidrio">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/6c42caeb.jpg" alt="Hielera de vidrio" loading="lazy">
+            <span class="badge">-58%</span>
+          </div>
+          <div class="info">
+            <h3>Hielera de vidrio</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 60</span>
+              <span class="precio-remate">S/ 25</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Hielera%20de%20vidrio%20(S/%2025)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="colonia hombre" data-nombre="verhom - esika">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/70cd2f9b.jpg" alt="VERHOM - ESIKA" loading="lazy">
+            <span class="badge">-53%</span>
+          </div>
+          <div class="info">
+            <h3>VERHOM - ESIKA</h3>
+            <p class="categoria">colonia hombre &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 75</span>
+              <span class="precio-remate">S/ 35</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20VERHOM%20-%20ESIKA%20(S/%2035)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="colonia hombre" data-nombre="aguas - natura">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/714c87fc.jpg" alt="Aguas - Natura" loading="lazy">
+            <span class="badge">-44%</span>
+          </div>
+          <div class="info">
+            <h3>Aguas - Natura</h3>
+            <p class="categoria">colonia hombre &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 45</span>
+              <span class="precio-remate">S/ 25</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Aguas%20-%20Natura%20(S/%2025)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Otros" data-nombre="just - enebro 60 g">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/72078a74.jpg" alt="Just - Enebro 60 g" loading="lazy">
+            <span class="badge">-53%</span>
+          </div>
+          <div class="info">
+            <h3>Just - Enebro 60 g</h3>
+            <p class="categoria">Otros &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 95</span>
+              <span class="precio-remate">S/ 45</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Just%20-%20Enebro%2060%20g%20(S/%2045)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="jarra de ceramica - adorno">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/73080e63.jpg" alt="Jarra de ceramica - Adorno" loading="lazy">
+            <span class="badge">-62%</span>
+          </div>
+          <div class="info">
+            <h3>Jarra de ceramica - Adorno</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 45</span>
+              <span class="precio-remate">S/ 17</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Jarra%20de%20ceramica%20-%20Adorno%20(S/%2017)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="centro de mesa">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/7f08ded0.jpg" alt="Centro de mesa" loading="lazy">
+            <span class="badge">-54%</span>
+          </div>
+          <div class="info">
+            <h3>Centro de mesa</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 65</span>
+              <span class="precio-remate">S/ 30</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Centro%20de%20mesa%20(S/%2030)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Otros" data-nombre="vital  2 en 1 - esika 1l">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/7f2d0693.jpg" alt="Vital  2 en 1 - Esika 1L" loading="lazy">
+            <span class="badge">-60%</span>
+          </div>
+          <div class="info">
+            <h3>Vital  2 en 1 - Esika 1L</h3>
+            <p class="categoria">Otros &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 45</span>
+              <span class="precio-remate">S/ 18</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Vital%20%202%20en%201%20-%20Esika%201L%20(S/%2018)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="condimentero de plastico">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/827ef5ef.jpg" alt="condimentero de plastico" loading="lazy">
+            <span class="badge">-50%</span>
+          </div>
+          <div class="info">
+            <h3>condimentero de plastico</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 20</span>
+              <span class="precio-remate">S/ 10</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20condimentero%20de%20plastico%20(S/%2010)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="colonia hombre" data-nombre="300 k/m - avon">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/831a4b11.jpg" alt="300 K/M - AVON" loading="lazy">
+            <span class="badge">-57%</span>
+          </div>
+          <div class="info">
+            <h3>300 K/M - AVON</h3>
+            <p class="categoria">colonia hombre &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 65</span>
+              <span class="precio-remate">S/ 28</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20300%20K/M%20-%20AVON%20(S/%2028)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="colonia mujer" data-nombre="colonias antiguas">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/88163bf6.jpg" alt="Colonias Antiguas" loading="lazy">
+            <span class="badge">-75%</span>
+          </div>
+          <div class="info">
+            <h3>Colonias Antiguas</h3>
+            <p class="categoria">colonia mujer &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 20</span>
+              <span class="precio-remate">S/ 5</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Colonias%20Antiguas%20(S/%205)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="colonia hombre" data-nombre="musk - avon">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/8d6a1ea2.jpg" alt="Musk - AVON" loading="lazy">
+            <span class="badge">-60%</span>
+          </div>
+          <div class="info">
+            <h3>Musk - AVON</h3>
+            <p class="categoria">colonia hombre &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 30</span>
+              <span class="precio-remate">S/ 12</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Musk%20-%20AVON%20(S/%2012)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="colonia mujer" data-nombre="essencial -natura">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/8ee1f434.jpg" alt="ESSENCIAL -Natura" loading="lazy">
+            <span class="badge">-70%</span>
+          </div>
+          <div class="info">
+            <h3>ESSENCIAL -Natura</h3>
+            <p class="categoria">colonia mujer &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 150</span>
+              <span class="precio-remate">S/ 45</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20ESSENCIAL%20-Natura%20(S/%2045)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Otros" data-nombre="aqua - esika loción 1l">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/91b945b4.jpg" alt="AQUA - Esika Loción 1L" loading="lazy">
+            <span class="badge">-56%</span>
+          </div>
+          <div class="info">
+            <h3>AQUA - Esika Loción 1L</h3>
+            <p class="categoria">Otros &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 50</span>
+              <span class="precio-remate">S/ 22</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20AQUA%20-%20Esika%20Loción%201L%20(S/%2022)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta agotada" data-categoria="Hogar" data-nombre="salero ceramica  - hamburguesa">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/93d4274e.jpg" alt="Salero ceramica  - Hamburguesa" loading="lazy">
+            <span class="badge badge-agotado">AGOTADO</span>
+          </div>
+          <div class="info">
+            <h3>Salero ceramica  - Hamburguesa</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 45</span>
+              <span class="precio-remate">S/ 20</span>
+            </div>
+            <span class="btn-agotado">Agotado</span>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="licorera de vidrio">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/958d5c0c.jpg" alt="Licorera De Vidrio" loading="lazy">
+            <span class="badge">-53%</span>
+          </div>
+          <div class="info">
+            <h3>Licorera De Vidrio</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 75</span>
+              <span class="precio-remate">S/ 35</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Licorera%20De%20Vidrio%20(S/%2035)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Otros" data-nombre="just- tomillo 60g">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/968e38e2.jpg" alt="Just- tomillo 60g" loading="lazy">
+            <span class="badge">-53%</span>
+          </div>
+          <div class="info">
+            <h3>Just- tomillo 60g</h3>
+            <p class="categoria">Otros &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 95</span>
+              <span class="precio-remate">S/ 45</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Just-%20tomillo%2060g%20(S/%2045)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="termo farah - 1.8 l">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/98a1166f.jpg" alt="Termo FARAH - 1.8 L" loading="lazy">
+            <span class="badge">-37%</span>
+          </div>
+          <div class="info">
+            <h3>Termo FARAH - 1.8 L</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 60</span>
+              <span class="precio-remate">S/ 38</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Termo%20FARAH%20-%201.8%20L%20(S/%2038)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Otros" data-nombre="natura plant">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/9ccf0d87.jpg" alt="Natura Plant" loading="lazy">
+            <span class="badge">-57%</span>
+          </div>
+          <div class="info">
+            <h3>Natura Plant</h3>
+            <p class="categoria">Otros &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 35</span>
+              <span class="precio-remate">S/ 15</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Natura%20Plant%20(S/%2015)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta agotada" data-categoria="Hogar" data-nombre="set de copas pequeñas x6">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/a05ea042.jpg" alt="Set de copas pequeñas x6" loading="lazy">
+            <span class="badge badge-agotado">AGOTADO</span>
+          </div>
+          <div class="info">
+            <h3>Set de copas pequeñas x6</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 75</span>
+              <span class="precio-remate">S/ 40</span>
+            </div>
+            <span class="btn-agotado">Agotado</span>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="colonia hombre" data-nombre="musk - avon 75 ml">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/a0d53f1a.jpg" alt="Musk - AVON 75 ml" loading="lazy">
+            <span class="badge">-62%</span>
+          </div>
+          <div class="info">
+            <h3>Musk - AVON 75 ml</h3>
+            <p class="categoria">colonia hombre &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 65</span>
+              <span class="precio-remate">S/ 25</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Musk%20-%20AVON%2075%20ml%20(S/%2025)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="condimentero">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/a41ba65d.jpg" alt="Condimentero" loading="lazy">
+            <span class="badge">-56%</span>
+          </div>
+          <div class="info">
+            <h3>Condimentero</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 45</span>
+              <span class="precio-remate">S/ 20</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Condimentero%20(S/%2020)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="colonia hombre" data-nombre="attraction rush - avon">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/a75062e6.jpg" alt="ATTRACTION RUSH - AVON" loading="lazy">
+            <span class="badge">-54%</span>
+          </div>
+          <div class="info">
+            <h3>ATTRACTION RUSH - AVON</h3>
+            <p class="categoria">colonia hombre &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 65</span>
+              <span class="precio-remate">S/ 30</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20ATTRACTION%20RUSH%20-%20AVON%20(S/%2030)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="set de vasos x6">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/ad398ab1.jpg" alt="Set de vasos x6" loading="lazy">
+            <span class="badge">-43%</span>
+          </div>
+          <div class="info">
+            <h3>Set de vasos x6</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 35</span>
+              <span class="precio-remate">S/ 20</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Set%20de%20vasos%20x6%20(S/%2020)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="juego de jarra + vasos x6">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/b227398e.jpg" alt="Juego de Jarra + Vasos x6" loading="lazy">
+            <span class="badge">-46%</span>
+          </div>
+          <div class="info">
+            <h3>Juego de Jarra + Vasos x6</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 65</span>
+              <span class="precio-remate">S/ 35</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Juego%20de%20Jarra%20+%20Vasos%20x6%20(S/%2035)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="colonia hombre" data-nombre="eres - azzorti">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/b3b14d4b.jpg" alt="ERES - Azzorti" loading="lazy">
+            <span class="badge">-60%</span>
+          </div>
+          <div class="info">
+            <h3>ERES - Azzorti</h3>
+            <p class="categoria">colonia hombre &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 50</span>
+              <span class="precio-remate">S/ 20</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20ERES%20-%20Azzorti%20(S/%2020)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Otros" data-nombre="avon care -  locion 1l">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/b6005d16.jpg" alt="AVON CARE -  Locion 1L" loading="lazy">
+            <span class="badge">-56%</span>
+          </div>
+          <div class="info">
+            <h3>AVON CARE -  Locion 1L</h3>
+            <p class="categoria">Otros &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 50</span>
+              <span class="precio-remate">S/ 22</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20AVON%20CARE%20-%20%20Locion%201L%20(S/%2022)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="set de ceramica">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/b8944063.jpg" alt="Set de ceramica" loading="lazy">
+            <span class="badge">-56%</span>
+          </div>
+          <div class="info">
+            <h3>Set de ceramica</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 45</span>
+              <span class="precio-remate">S/ 20</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Set%20de%20ceramica%20(S/%2020)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="quesera de ceramica">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/ba279e72.jpg" alt="Quesera de Ceramica" loading="lazy">
+            <span class="badge">-60%</span>
+          </div>
+          <div class="info">
+            <h3>Quesera de Ceramica</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 50</span>
+              <span class="precio-remate">S/ 20</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Quesera%20de%20Ceramica%20(S/%2020)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta agotada" data-categoria="Otros" data-nombre="just essential">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/ba38d07d.jpg" alt="Just Essential" loading="lazy">
+            <span class="badge badge-agotado">AGOTADO</span>
+          </div>
+          <div class="info">
+            <h3>Just Essential</h3>
+            <p class="categoria">Otros &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 180</span>
+              <span class="precio-remate">S/ 65</span>
+            </div>
+            <span class="btn-agotado">Agotado</span>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="bombonera azucarera de vidrio">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/bbe35a8c.jpg" alt="Bombonera Azucarera de Vidrio" loading="lazy">
+            <span class="badge">-64%</span>
+          </div>
+          <div class="info">
+            <h3>Bombonera Azucarera de Vidrio</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 50</span>
+              <span class="precio-remate">S/ 18</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Bombonera%20Azucarera%20de%20Vidrio%20(S/%2018)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="colonia mujer" data-nombre="emma - esika">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/c2c4d9b5.jpg" alt="Emma - Esika" loading="lazy">
+            <span class="badge">-57%</span>
+          </div>
+          <div class="info">
+            <h3>Emma - Esika</h3>
+            <p class="categoria">colonia mujer &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 89</span>
+              <span class="precio-remate">S/ 38</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Emma%20-%20Esika%20(S/%2038)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="azucarera ceramica">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/c9109739.jpg" alt="Azucarera Ceramica" loading="lazy">
+            <span class="badge">-64%</span>
+          </div>
+          <div class="info">
+            <h3>Azucarera Ceramica</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 55</span>
+              <span class="precio-remate">S/ 20</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Azucarera%20Ceramica%20(S/%2020)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="juego de cuchillos 5 piezas - oster">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/d791e784.jpg" alt="Juego de Cuchillos 5 piezas - Oster" loading="lazy">
+            <span class="badge">-47%</span>
+          </div>
+          <div class="info">
+            <h3>Juego de Cuchillos 5 piezas - Oster</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 95</span>
+              <span class="precio-remate">S/ 50</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Juego%20de%20Cuchillos%205%20piezas%20-%20Oster%20(S/%2050)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="mini jarra de leche de cerámica">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/da0c4c8f.jpg" alt="Mini jarra de leche de cerámica" loading="lazy">
+            <span class="badge">-57%</span>
+          </div>
+          <div class="info">
+            <h3>Mini jarra de leche de cerámica</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 35</span>
+              <span class="precio-remate">S/ 15</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Mini%20jarra%20de%20leche%20de%20cerámica%20(S/%2015)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Otros" data-nombre="musk+">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/dd812e57.jpg" alt="Musk+" loading="lazy">
+            <span class="badge">-17%</span>
+          </div>
+          <div class="info">
+            <h3>Musk+</h3>
+            <p class="categoria">Otros &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 30</span>
+              <span class="precio-remate">S/ 25</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Musk+%20(S/%2025)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="jarra de vidrio 1.5l">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/de68cd2a.jpg" alt="Jarra de vidrio 1.5L" loading="lazy">
+            <span class="badge">-49%</span>
+          </div>
+          <div class="info">
+            <h3>Jarra de vidrio 1.5L</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 35</span>
+              <span class="precio-remate">S/ 18</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Jarra%20de%20vidrio%201.5L%20(S/%2018)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="colonia hombre" data-nombre="altheus">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/df6f2145.jpg" alt="ALTHEUS" loading="lazy">
+            <span class="badge">-58%</span>
+          </div>
+          <div class="info">
+            <h3>ALTHEUS</h3>
+            <p class="categoria">colonia hombre &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 60</span>
+              <span class="precio-remate">S/ 25</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20ALTHEUS%20(S/%2025)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="colonia hombre" data-nombre="bouschet - azzorti">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/e47009ad.jpg" alt="BOUSCHET - AZZORTI" loading="lazy">
+            <span class="badge">-60%</span>
+          </div>
+          <div class="info">
+            <h3>BOUSCHET - AZZORTI</h3>
+            <p class="categoria">colonia hombre &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 75</span>
+              <span class="precio-remate">S/ 30</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20BOUSCHET%20-%20AZZORTI%20(S/%2030)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="set de vasos x6">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/ea9c3d89.jpg" alt="Set de vasos x6" loading="lazy">
+            <span class="badge">-56%</span>
+          </div>
+          <div class="info">
+            <h3>Set de vasos x6</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 45</span>
+              <span class="precio-remate">S/ 20</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Set%20de%20vasos%20x6%20(S/%2020)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="colonia hombre" data-nombre="dark code - azzorti">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/ebaf5c3c.jpg" alt="Dark Code - Azzorti" loading="lazy">
+            <span class="badge">-53%</span>
+          </div>
+          <div class="info">
+            <h3>Dark Code - Azzorti</h3>
+            <p class="categoria">colonia hombre &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 75</span>
+              <span class="precio-remate">S/ 35</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Dark%20Code%20-%20Azzorti%20(S/%2035)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Otros" data-nombre="biofruit">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/edaddf7a.jpg" alt="BioFruit" loading="lazy">
+            <span class="badge">-56%</span>
+          </div>
+          <div class="info">
+            <h3>BioFruit</h3>
+            <p class="categoria">Otros &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 45</span>
+              <span class="precio-remate">S/ 20</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20BioFruit%20(S/%2020)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="tetera de té cafetera de vidrio con filtro">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/ee18933f.jpg" alt="Tetera de té Cafetera de vidrio con filtro" loading="lazy">
+            <span class="badge">-52%</span>
+          </div>
+          <div class="info">
+            <h3>Tetera de té Cafetera de vidrio con filtro</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 25</span>
+              <span class="precio-remate">S/ 12</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Tetera%20de%20té%20Cafetera%20de%20vidrio%20con%20filtro%20(S/%2012)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="azucarero de ceramica">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/ee974b49.jpg" alt="Azucarero de ceramica" loading="lazy">
+            <span class="badge">-60%</span>
+          </div>
+          <div class="info">
+            <h3>Azucarero de ceramica</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 45</span>
+              <span class="precio-remate">S/ 18</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Azucarero%20de%20ceramica%20(S/%2018)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="azucarera - ceramica">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/f21a08d9.jpg" alt="Azucarera - Ceramica" loading="lazy">
+            <span class="badge">-58%</span>
+          </div>
+          <div class="info">
+            <h3>Azucarera - Ceramica</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 55</span>
+              <span class="precio-remate">S/ 23</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Azucarera%20-%20Ceramica%20(S/%2023)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="cenicero">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/f505f665.jpg" alt="Cenicero" loading="lazy">
+            <span class="badge">-57%</span>
+          </div>
+          <div class="info">
+            <h3>Cenicero</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 35</span>
+              <span class="precio-remate">S/ 15</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Cenicero%20(S/%2015)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="quesar de ceramica">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/f675ad1a.jpg" alt="Quesar de ceramica" loading="lazy">
+            <span class="badge">-56%</span>
+          </div>
+          <div class="info">
+            <h3>Quesar de ceramica</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 45</span>
+              <span class="precio-remate">S/ 20</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Quesar%20de%20ceramica%20(S/%2020)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="set 4 vasos + jarra">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/fa9c791d.jpg" alt="Set 4 vasos + Jarra" loading="lazy">
+            <span class="badge">-38%</span>
+          </div>
+          <div class="info">
+            <h3>Set 4 vasos + Jarra</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 65</span>
+              <span class="precio-remate">S/ 40</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Set%204%20vasos%20+%20Jarra%20(S/%2040)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+        <div class="tarjeta" data-categoria="Hogar" data-nombre="rallador plegable">
+          <div class="img-wrap">
+            <img src="catalogo_imagenes/fbf01f1d.jpg" alt="Rallador Plegable" loading="lazy">
+            <span class="badge">-40%</span>
+          </div>
+          <div class="info">
+            <h3>Rallador Plegable</h3>
+            <p class="categoria">Hogar &middot; Nuevo</p>
+            <div class="precios">
+              <span class="precio-original">S/ 25</span>
+              <span class="precio-remate">S/ 15</span>
+            </div>
+            <a class="btn-wsp" target="_blank"
+               href="https://wa.me/+51979800254?text=Hola%2C%20me%20interesa:%20Rallador%20Plegable%20(S/%2015)">
+               Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+</div>
+
+<script>
+  const buscador = document.getElementById('buscador');
+  const filtroCategoria = document.getElementById('filtroCategoria');
+  const tarjetas = Array.from(document.querySelectorAll('.tarjeta'));
+
+  function aplicarFiltros() {
+    const texto = buscador.value.toLowerCase();
+    const categoria = filtroCategoria.value;
+    tarjetas.forEach(t => {
+      const coincideTexto = t.dataset.nombre.includes(texto);
+      const coincideCategoria = !categoria || t.dataset.categoria === categoria;
+      t.style.display = (coincideTexto && coincideCategoria) ? '' : 'none';
+    });
+  }
+
+  buscador.addEventListener('input', aplicarFiltros);
+  filtroCategoria.addEventListener('change', aplicarFiltros);
+</script>
+
+</body>
+</html>
