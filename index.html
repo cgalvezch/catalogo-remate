@@ -25,6 +25,19 @@
   }
   header h1 { margin: 0 0 4px 0; font-size: 1.6rem; }
   header p { margin: 0; opacity: 0.9; font-size: 0.95rem; }
+  .badge-plin {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    color: #00b4a8;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 6px 14px 6px 8px;
+    border-radius: 999px;
+    margin-top: 12px;
+  }
+  .badge-plin svg { width: 22px; height: 22px; display: block; }
 
   .controles {
     display: flex;
@@ -125,6 +138,23 @@
 <header>
   <h1>Remate de Tienda</h1>
   <p>Catalogo de remate &middot; 85 producto(s) disponibles</p>
+  <div class="badge-plin">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gradPlin" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#0d6efd"/>
+          <stop offset="55%" stop-color="#00c9b7"/>
+          <stop offset="100%" stop-color="#00e0c0"/>
+        </linearGradient>
+      </defs>
+      <path fill="url(#gradPlin)" d="M50 3c26 0 47 21 47 47S76 97 50 97c-8 0-15-2-22-5-4-2-8-3-12 0-3 2-7 1-8-3-1-3 0-6 1-9 2-5 1-9-2-13C3 60 3 55 3 50 3 24 24 3 50 3z"/>
+      <text x="30" y="66" font-family="Arial, sans-serif" font-size="46" font-weight="800" fill="white">pl</text>
+      <rect x="61" y="34" width="12" height="34" rx="6" fill="white"/>
+      <circle cx="67" cy="24" r="7" fill="#ff4fa3"/>
+      <text x="76" y="66" font-family="Arial, sans-serif" font-size="46" font-weight="800" fill="white">n</text>
+    </svg>
+    Solo pagos por PLIN
+  </div>
 </header>
 
 <div class="controles">
