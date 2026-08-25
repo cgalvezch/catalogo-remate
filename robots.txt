@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://cgalvezch.github.io/catalogo-remate/sitemap.xml
